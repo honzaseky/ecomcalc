@@ -557,6 +557,33 @@
   }
   .footer a { color: var(--text-dim); text-decoration: none; }
   .footer a:hover { color: var(--accent); }
+
+  /* ── Copy Results ── */
+  .copy-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    text-align: center;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+  }
+  .copy-btn:hover {
+    border-color: var(--border-active);
+    color: var(--text);
+  }
+  .copy-btn.copied {
+    border-color: var(--green-border);
+    color: var(--green);
+  }
 </style>
 </head>
 <body>
@@ -720,6 +747,8 @@
               <span class="breakdown-value good" id="bRevenue">—</span>
             </div>
           </div>
+
+          <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Results</button>
 
         </div>
       </div>
@@ -1059,6 +1088,29 @@
     } else {
       bRevRow.style.display = 'none';
     }
+  }
+
+  /* ── Copy Results ── */
+  function copyResults() {
+    const lines = ['EcomCalc — Ad Metrics Calculator'];
+    lines.push('CPM: ' + document.getElementById('cpmValue').textContent);
+    lines.push('CPC: ' + document.getElementById('cpcValue').textContent);
+    lines.push('CTR: ' + document.getElementById('ctrValue').textContent);
+    const cpaMetric = document.getElementById('cpaMetric');
+    if (cpaMetric && cpaMetric.style.display !== 'none') {
+      lines.push('CPA: ' + document.getElementById('cpaValue').textContent);
+    }
+    const roasWrap = document.getElementById('roasWrap');
+    if (roasWrap && roasWrap.style.display !== 'none') {
+      lines.push('ROAS: ' + document.getElementById('roasValue').textContent);
+    }
+    lines.push('ecomcalc.io');
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+    });
   }
 
   calculate();

@@ -559,6 +559,33 @@
   }
   .footer a { color: var(--text-dim); text-decoration: none; }
   .footer a:hover { color: var(--accent); }
+
+  /* ── Copy Results ── */
+  .copy-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+    text-align: center;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+  }
+  .copy-btn:hover {
+    border-color: var(--border-active);
+    color: var(--text);
+  }
+  .copy-btn.copied {
+    border-color: var(--green-border);
+    color: var(--green);
+  }
 </style>
 </head>
 <body>
@@ -729,6 +756,8 @@
               <span class="breakdown-value profit" id="bLtvProfit">—</span>
             </div>
           </div>
+
+          <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Results</button>
 
         </div>
       </div>
@@ -1086,6 +1115,29 @@
       bMarginRow.style.display    = 'none';
       bLtvProfitRow.style.display = 'none';
     }
+  }
+
+  /* ── Copy Results ── */
+  function copyResults() {
+    const lines = ['EcomCalc — LTV Calculator'];
+    lines.push('LTV (Revenue): ' + document.getElementById('ltvRevenue').textContent);
+    const ltvProfit = document.getElementById('ltvProfit').textContent;
+    if (ltvProfit !== '—') lines.push('LTV (Profit): ' + ltvProfit);
+    const ratioWrap = document.getElementById('ratioWrap');
+    if (ratioWrap && ratioWrap.style.display !== 'none') {
+      lines.push('LTV:CAC ratio: ' + document.getElementById('ratioValue').textContent);
+    }
+    const breakEvenWrap = document.getElementById('breakEvenWrap');
+    if (breakEvenWrap && breakEvenWrap.style.display !== 'none') {
+      lines.push('Break-even orders: ' + document.getElementById('breakEvenValue').textContent);
+    }
+    lines.push('ecomcalc.io');
+    navigator.clipboard.writeText(lines.join('\n')).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+    });
   }
 
   calculate();
