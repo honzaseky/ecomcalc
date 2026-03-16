@@ -526,6 +526,25 @@
     .theme-toggle { top: 12px; right: 12px; }
   }
 
+  /* ── Below-calculator sections ── */
+  .below-calc { margin-top: 48px; display: flex; flex-direction: column; gap: 48px; }
+  .section-heading { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; }
+  .tips-list { display: flex; flex-direction: column; gap: 12px; }
+  .tip { display: flex; gap: 14px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; box-shadow: var(--shadow); transition: background 0.25s, border-color 0.25s; }
+  .tip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+  .tip-text { font-size: 14px; color: var(--text-muted); line-height: 1.55; }
+  .tip-text strong { color: var(--text); font-weight: 600; }
+  .related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .related-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 22px; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s, transform 0.15s, background 0.25s; }
+  .related-card:hover { border-color: var(--border-active); transform: translateY(-2px); }
+  .related-card:hover .related-arrow { color: var(--accent); opacity: 1; transform: translateX(0); }
+  .related-card-top { display: flex; align-items: flex-start; justify-content: space-between; }
+  .related-icon { width: 36px; height: 36px; border-radius: 9px; background: var(--accent-glow); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .related-arrow { font-size: 15px; color: var(--text-dim); opacity: 0; transform: translateX(-4px); transition: opacity 0.2s, transform 0.2s, color 0.2s; margin-top: 1px; }
+  .related-title { font-size: 14px; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-top: 2px; }
+  .related-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  @media (max-width: 600px) { .related-grid { grid-template-columns: 1fr; } }
+
   /* ── Site header ── */
   .site-header {
     position: fixed;
@@ -735,6 +754,27 @@
     </div>
 
   </div><!-- /layout -->
+
+  <div class="below-calc">
+    <div class="tips-section">
+      <div class="section-heading">Quick Tips</div>
+      <div class="tips-list">
+        <div class="tip"><div class="tip-dot"></div><div class="tip-text"><strong>Shopify Payments saves 0.5–2% per transaction vs external gateways.</strong> At $50k/month revenue, that's $250–$1,000 back in your pocket every month just from switching payment processors.</div></div>
+        <div class="tip"><div class="tip-dot"></div><div class="tip-text"><strong>At high volume, the Advanced plan pays for itself quickly.</strong> The difference between Basic (2%) and Advanced (0.5%) transaction fees covers the plan upgrade cost at around $40k/month GMV.</div></div>
+        <div class="tip"><div class="tip-dot"></div><div class="tip-text"><strong>Third-party app fees are often bigger than Shopify fees — audit them regularly.</strong> $9 here, $29 there, $49 for that review app — it adds up to hundreds per month before you notice.</div></div>
+        <div class="tip"><div class="tip-dot"></div><div class="tip-text"><strong>Annual billing saves ~25% vs monthly on all Shopify plans.</strong> If you're past the testing phase, there's no reason to stay on monthly billing.</div></div>
+      </div>
+    </div>
+    <div class="related-section">
+      <div class="section-heading">Related Calculators</div>
+      <div class="related-grid">
+        <a class="related-card" href="profit-calculator.html"><div class="related-card-top"><div class="related-icon">💰</div><span class="related-arrow">→</span></div><div class="related-title">Profit Margin Calculator</div><div class="related-desc">Know exactly what you make on every sale after all costs and fees.</div></a>
+        <a class="related-card" href="pricing-calculator.html"><div class="related-card-top"><div class="related-icon">🏷️</div><span class="related-arrow">→</span></div><div class="related-title">Pricing Calculator</div><div class="related-desc">Work backwards from your target margin to find the right selling price.</div></a>
+        <a class="related-card" href="refund-calculator.html"><div class="related-card-top"><div class="related-icon">↩️</div><span class="related-arrow">→</span></div><div class="related-title">Refund Impact Calculator</div><div class="related-desc">Quantify how refunds erode your monthly profit and find your break-even refund rate.</div></a>
+      </div>
+    </div>
+  </div>
+
 </div><!-- /page -->
 
 <script>

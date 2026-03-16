@@ -504,6 +504,135 @@
     .theme-toggle { top: 12px; right: 12px; }
   }
 
+  /* ── Below-calculator sections ── */
+  .below-calc {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .section-heading {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+  }
+
+  /* Quick Tips */
+  .tips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .tip {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    box-shadow: var(--shadow);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .tip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .tip-text {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
+
+  .tip-text strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* Related Calculators */
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .related-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.2s, transform 0.15s, background 0.25s;
+  }
+
+  .related-card:hover {
+    border-color: var(--border-active);
+    transform: translateY(-2px);
+  }
+
+  .related-card:hover .related-arrow { color: var(--accent); opacity: 1; transform: translateX(0); }
+
+  .related-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .related-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: var(--accent-glow);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .related-arrow {
+    font-size: 15px;
+    color: var(--text-dim);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.2s, transform 0.2s, color 0.2s;
+    margin-top: 1px;
+  }
+
+  .related-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  .related-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .related-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── Site header ── */
   .site-header {
     position: fixed;
@@ -729,6 +858,66 @@
     </div>
 
   </div><!-- /layout -->
+
+  <!-- Below-calculator sections -->
+  <div class="below-calc">
+
+    <!-- Quick Tips -->
+    <div class="tips-section">
+      <div class="section-heading">Quick Tips</div>
+      <div class="tips-list">
+        <div class="tip">
+          <div class="tip-dot"></div>
+          <div class="tip-text"><strong>Aim for at least 20% net margin</strong> — below that, small cost changes or a bad ad month can wipe your profit entirely.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-dot"></div>
+          <div class="tip-text"><strong>Factor in refunds.</strong> Ecom return rates typically run 5–15%. A 10% refund rate on a $50 product costs you more than just the sale — you're also absorbing shipping and processing fees twice.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-dot"></div>
+          <div class="tip-text"><strong>Payment processing fees add up fast.</strong> At $30 AOV, a 2.9% + $0.30 fee is 3.9% of revenue — nearly double what it looks like on paper.</div>
+        </div>
+        <div class="tip">
+          <div class="tip-dot"></div>
+          <div class="tip-text"><strong>Gross margin is a ceiling, not a win.</strong> A 60% gross margin means nothing if your CAC eats 50% of revenue. Always calculate net margin with acquisition costs included.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Calculators -->
+    <div class="related-section">
+      <div class="section-heading">Related Calculators</div>
+      <div class="related-grid">
+        <a class="related-card" href="pricing-calculator.html">
+          <div class="related-card-top">
+            <div class="related-icon">🏷️</div>
+            <span class="related-arrow">→</span>
+          </div>
+          <div class="related-title">Pricing Calculator</div>
+          <div class="related-desc">Work backwards from your target margin to find the right selling price.</div>
+        </a>
+        <a class="related-card" href="cac-calculator.html">
+          <div class="related-card-top">
+            <div class="related-icon">🎯</div>
+            <span class="related-arrow">→</span>
+          </div>
+          <div class="related-title">CAC Calculator</div>
+          <div class="related-desc">Calculate your customer acquisition cost and see if your ad spend makes sense.</div>
+        </a>
+        <a class="related-card" href="product-viability.html">
+          <div class="related-card-top">
+            <div class="related-icon">✅</div>
+            <span class="related-arrow">→</span>
+          </div>
+          <div class="related-title">Product Viability Calculator</div>
+          <div class="related-desc">Check whether a product can actually be profitable before you commit to it.</div>
+        </a>
+      </div>
+    </div>
+
+  </div><!-- /below-calc -->
+
 </div><!-- /page -->
 
 <script>
