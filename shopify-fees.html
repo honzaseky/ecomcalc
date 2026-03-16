@@ -74,19 +74,14 @@
 
   /* ── Theme toggle ── */
   .theme-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 100;
-    background: var(--surface);
+    margin-left: auto;
     border: 1px solid var(--border);
     border-radius: 100px;
     padding: 6px;
     display: flex;
     align-items: center;
     gap: 2px;
-    box-shadow: var(--shadow);
-    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    transition: border-color 0.25s;
   }
 
   .theme-toggle button {
@@ -523,7 +518,6 @@
     body { padding: 32px 16px 60px; }
     .metrics { grid-template-columns: 1fr; }
     .card { padding: 22px 20px; }
-    .theme-toggle { top: 12px; right: 12px; }
   }
 
   /* ── Below-calculator sections ── */
@@ -580,14 +574,12 @@
 <header class="site-header">
   <div class="site-header-inner">
     <a class="site-name" href="index.html">EcomCalc</a>
+    <div class="theme-toggle">
+      <button id="btn-light" onclick="setTheme('light')" title="Light mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
   </div>
 </header>
-
-<!-- Theme toggle -->
-<div class="theme-toggle">
-  <button id="btn-light" onclick="setTheme('light')" title="Light mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
-  <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
-</div>
 
 <div class="page">
 
