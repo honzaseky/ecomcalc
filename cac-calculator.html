@@ -756,7 +756,7 @@
             </div>
           </div>
 
-          <button class="copy-btn" id="copyBtn" onclick="copyResults()">Copy Results</button>
+          <button class="copy-btn" id="copyBtn" onclick="shareResults()">Save Image</button>
 
         </div>
       </div>
@@ -1097,22 +1097,123 @@
     }
   }
 
-  /* ── Copy Results ── */
-  function copyResults() {
-    const lines = ['EcomCalc — CAC Calculator'];
-    lines.push('CAC: ' + document.getElementById('cacValue').textContent);
-    lines.push('Profit after CAC: ' + document.getElementById('profitValue').textContent);
+  /* ── Share Results (Image) ── */
+  function getMetricColor(id) {
+    const el = document.getElementById(id);
+    if (!el) return '';
+    if (el.classList.contains('positive')) return 'positive';
+    if (el.classList.contains('negative')) return 'negative';
+    if (el.classList.contains('neutral'))  return 'neutral';
+    return '';
+  }
+
+  function safeMetric(label, id, color) {
+    const el = document.getElementById(id);
+    if (!el || el.textContent.trim() === '—') return null;
+    return { label, value: el.textContent.trim(), color: color !== undefined ? color : getMetricColor(id) };
+  }
+
+  function generateShareImage(calcName, metrics) {
+    const card = document.getElementById('resultsCard');
+    const verdictTextEl = document.getElementById('verdictText');
+    const verdictSubEl  = document.getElementById('verdictSub');
+    const verdictLabel  = verdictTextEl ? verdictTextEl.textContent.trim() : '';
+    const verdictSub    = verdictSubEl  ? verdictSubEl.textContent.trim()  : '';
+    let verdictColor = '';
+    if (card) {
+      if (card.classList.contains('profitable'))        verdictColor = 'green';
+      else if (card.classList.contains('losing'))       verdictColor = 'red';
+      else if (card.classList.contains('breaking-even')) verdictColor = 'yellow';
+    }
+    const hasVerdict = !!(verdictLabel && verdictLabel !== '—' && verdictColor);
+    const OP = 20, PAD = 32, COLS = 2, MH = 76, MG = 10, CW = 600;
+    const ROWS = Math.ceil(metrics.length / COLS);
+    const cardH = 88 + (hasVerdict ? 76 : 0) + 24 + ROWS * MH + (ROWS - 1) * MG + 24 + 44;
+    const CAN_W = CW + OP * 2, CAN_H = cardH + OP * 2;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const canvas = document.createElement('canvas');
+    canvas.width = CAN_W * dpr; canvas.height = CAN_H * dpr;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+    const F = '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+    function rr(x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.arcTo(x + w, y, x + w, y + r, r);
+      ctx.lineTo(x + w, y + h - r); ctx.arcTo(x + w, y + h, x + w - r, y + h, r);
+      ctx.lineTo(x + r, y + h); ctx.arcTo(x, y + h, x, y + h - r, r);
+      ctx.lineTo(x, y + r); ctx.arcTo(x, y, x + r, y, r);
+      ctx.closePath();
+    }
+    ctx.fillStyle = '#f4f4f8'; ctx.fillRect(0, 0, CAN_W, CAN_H);
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.07)'; ctx.shadowBlur = 20; ctx.shadowOffsetY = 4;
+    ctx.fillStyle = '#ffffff'; rr(OP, OP, CW, cardH, 16); ctx.fill();
+    ctx.restore();
+    ctx.save(); rr(OP, OP, CW, cardH, 16); ctx.clip();
+    ctx.fillStyle = '#6c5ce7'; ctx.fillRect(OP, OP, CW, 4);
+    ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#6c5ce7'; ctx.font = `bold 18px ${F}`;
+    ctx.fillText('EcomCalc', OP + PAD, OP + 36);
+    ctx.fillStyle = '#6b6b8a'; ctx.font = `500 13px ${F}`;
+    ctx.fillText(calcName, OP + PAD, OP + 60);
+    ctx.strokeStyle = '#e2e2ec'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(OP + PAD, OP + 76); ctx.lineTo(OP + CW - PAD, OP + 76); ctx.stroke();
+    let y = OP + 88;
+    if (hasVerdict) {
+      const VC = {
+        green:  { bg: 'rgba(22,163,74,0.10)',  border: 'rgba(22,163,74,0.28)',  text: '#16a34a' },
+        red:    { bg: 'rgba(220,38,38,0.10)',   border: 'rgba(220,38,38,0.28)',  text: '#dc2626' },
+        yellow: { bg: 'rgba(180,83,9,0.10)',    border: 'rgba(180,83,9,0.28)',   text: '#b45309' },
+      }[verdictColor];
+      ctx.fillStyle = VC.bg; ctx.fillRect(OP + PAD, y, CW - PAD * 2, 64);
+      ctx.strokeStyle = VC.border; ctx.lineWidth = 1;
+      ctx.strokeRect(OP + PAD + 0.5, y + 0.5, CW - PAD * 2 - 1, 63);
+      ctx.textAlign = 'center'; ctx.fillStyle = VC.text;
+      ctx.font = `bold 16px ${F}`; ctx.fillText(verdictLabel, OP + CW / 2, y + 24);
+      if (verdictSub && verdictSub !== '—') {
+        ctx.font = `500 13px ${F}`; ctx.globalAlpha = 0.75;
+        ctx.fillText(verdictSub, OP + CW / 2, y + 47); ctx.globalAlpha = 1;
+      }
+      y += 76;
+    }
+    const colW = (CW - PAD * 2 - MG) / 2;
+    y += 24;
+    metrics.forEach((m, i) => {
+      const col = i % COLS, row = Math.floor(i / COLS);
+      const mx = OP + PAD + col * (colW + MG), my = y + row * (MH + MG);
+      ctx.fillStyle = '#f0f0f5'; rr(mx, my, colW, MH, 10); ctx.fill();
+      ctx.strokeStyle = '#e2e2ec'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+      ctx.fillStyle = '#6b6b8a'; ctx.font = `bold 10px ${F}`;
+      ctx.fillText(m.label.toUpperCase(), mx + 14, my + 14);
+      ctx.fillStyle = m.color === 'positive' ? '#16a34a' : m.color === 'negative' ? '#dc2626' : m.color === 'neutral' ? '#b45309' : '#18182a';
+      ctx.textBaseline = 'bottom'; ctx.font = `bold 20px ${F}`;
+      ctx.fillText(m.value, mx + 14, my + MH - 10);
+    });
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#b8b8cc'; ctx.font = `500 12px ${F}`;
+    ctx.fillText('ecomcalc.io', OP + CW / 2, OP + cardH - 18);
+    ctx.restore();
+    const a = document.createElement('a');
+    a.download = 'ecomcalc-results.png';
+    a.href = canvas.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+
+  function shareResults() {
+    const metrics = [
+      { label: 'CAC',              value: document.getElementById('cacValue').textContent,   color: getMetricColor('cacValue') },
+      { label: 'Profit after CAC', value: document.getElementById('profitValue').textContent, color: getMetricColor('profitValue') },
+    ];
     const cacPctWrap = document.getElementById('cacPctWrap');
     if (cacPctWrap && cacPctWrap.style.display !== 'none') {
-      lines.push('CAC as % of revenue: ' + document.getElementById('cacPctValue').textContent);
+      metrics.push(safeMetric('CAC as % of Revenue', 'cacPctValue', ''));
     }
-    lines.push('ecomcalc.io');
-    navigator.clipboard.writeText(lines.join('\n')).then(() => {
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
-    });
+    generateShareImage('CAC Calculator', metrics.filter(Boolean));
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Saving…';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Save Image'; btn.classList.remove('copied'); }, 1500);
   }
 
   calculate();
