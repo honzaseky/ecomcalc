@@ -545,6 +545,18 @@
     color: var(--accent);
     text-decoration: none;
   }
+  /* ── Footer ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 13px;
+    color: var(--text-dim);
+    transition: background 0.25s, border-color 0.25s;
+  }
+  .footer a { color: var(--text-dim); text-decoration: none; }
+  .footer a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -883,6 +895,10 @@
 </div>
 
 </div><!-- /page -->
+
+<footer class="footer">
+  EcomCalc — Free tools for ecommerce operators &nbsp;&middot;&nbsp; <a href="faq.html">FAQ</a>
+</footer>
 
 <script>
   /* ── Theme ── */

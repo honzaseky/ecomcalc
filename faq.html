@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BV9YNMFRGH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BV9YNMFRGH');
+</script>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — EcomCalc</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f4f4f8;
+    --surface: #ffffff;
+    --surface2: #f0f0f5;
+    --border: #e2e2ec;
+    --border-active: #a0a0c0;
+    --text: #18182a;
+    --text-muted: #6b6b8a;
+    --text-dim: #b8b8cc;
+    --accent: #6c5ce7;
+    --accent-glow: rgba(108, 92, 231, 0.12);
+    --accent-soft: rgba(108, 92, 231, 0.08);
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #1f1f2e;
+    --border-active: #3a3a5c;
+    --text: #e8e8f0;
+    --text-muted: #6b6b8a;
+    --text-dim: #3a3a55;
+    --accent: #7c6af7;
+    --accent-glow: rgba(124, 106, 247, 0.15);
+    --accent-soft: rgba(124, 106, 247, 0.10);
+    --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  html { transition: background 0.25s, color 0.25s; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding-top: 52px;
+    line-height: 1.5;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  /* ── Theme toggle ── */
+  .theme-toggle {
+    margin-left: auto;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    transition: border-color 0.25s;
+  }
+
+  .theme-toggle button {
+    background: none;
+    border: none;
+    border-radius: 100px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--text-muted);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  [data-theme="light"] #btn-light { background: var(--surface2); color: var(--text); }
+  [data-theme="dark"]  #btn-dark  { background: var(--surface2); color: var(--text); }
+
+  /* ── Site header ── */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .site-header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 72px 24px 48px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid var(--accent-glow);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ── FAQ list ── */
+  .faq-section {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .faq-group-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 40px 0 16px;
+  }
+
+  .faq-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s, background 0.25s;
+  }
+
+  .faq-item.open {
+    border-color: var(--border-active);
+  }
+
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 20px 24px;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.4;
+    font-family: inherit;
+    transition: color 0.15s;
+  }
+
+  .faq-question:hover {
+    color: var(--accent);
+  }
+
+  .faq-chevron {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.25s, background 0.15s, border-color 0.15s;
+  }
+
+  .faq-item.open .faq-chevron {
+    transform: rotate(180deg);
+    background: var(--accent-soft);
+    border-color: var(--accent-glow);
+  }
+
+  .faq-chevron svg {
+    display: block;
+    color: var(--text-muted);
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+
+  .faq-item.open .faq-answer {
+    max-height: 600px;
+  }
+
+  .faq-answer-inner {
+    padding: 0 24px 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+  }
+
+  .faq-answer-inner a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .faq-answer-inner a:hover {
+    text-decoration: underline;
+  }
+
+  .faq-answer-inner strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Footer ── */
+  .footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    padding: 28px 24px;
+    font-size: 13px;
+    color: var(--text-dim);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .footer a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .site-header-inner { padding: 0 20px; }
+    .faq-section { padding: 0 16px 60px; }
+    .hero { padding: 48px 20px 36px; }
+    .faq-question { padding: 16px 18px; font-size: 14px; }
+    .faq-answer-inner { padding: 0 18px 16px; padding-top: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-name" href="index.html">EcomCalc</a>
+    <div class="theme-toggle">
+      <button id="btn-light" onclick="setTheme('light')" title="Light mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+      <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-label">Help</div>
+  <h1>Frequently asked questions</h1>
+  <p class="hero-sub">Everything you need to know about EcomCalc and how to get the most out of it.</p>
+</section>
+
+<main class="faq-section">
+
+  <div class="faq-group-label">General</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      Are these calculators really free?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        Yes — completely free, with no catches. There are no premium tiers, no feature locks, and no trial periods. Every calculator on EcomCalc is fully functional from the moment you land on the page. We keep the site running through occasional sponsorships and the newsletter, not by gating your access to tools.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      Do I need to create an account?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        No account required — ever. Just open any calculator and start entering numbers. Nothing is stored on our servers, and nothing is tracked beyond basic anonymous analytics. Your data lives only in your browser tab and disappears when you close it.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      How accurate are the calculations?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        The math is precise — the results are only as accurate as the numbers you put in. Our formulas follow standard ecommerce accounting (gross profit, net margin, LTV, CAC, ROAS, etc.) and the Shopify fee structure is kept up to date with published rates. That said, treat the outputs as a strong guide rather than a guarantee. Real-world costs like chargebacks, storage fees, or currency fluctuations may not be fully captured unless you account for them in your inputs.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      What currencies are supported?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        All calculators support <strong>USD ($), EUR (€), GBP (£), and CZK (Kč)</strong> via the currency selector at the top of each tool. The underlying math is currency-agnostic — switching the symbol just changes how values are displayed, not how they're calculated. If your currency isn't listed, pick any symbol and treat the numbers as your local unit.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-group-label">Using the calculators</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      Which calculator should I start with?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        If you're just getting started, the <a href="profit-calculator.html"><strong>Profit Margin Calculator</strong></a> is the right first stop — it gives you a clear picture of what you actually make on each sale once all your costs are accounted for. From there, the <a href="pricing-calculator.html"><strong>Pricing Calculator</strong></a> helps you work backwards from a target margin to set the right selling price. If you're running paid ads, move on to the <a href="cac-calculator.html"><strong>CAC Calculator</strong></a> and <a href="ad-metrics-calculator.html"><strong>Ad Metrics Calculator</strong></a> to make sure your acquisition costs make sense.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      How is net profit different from gross profit?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <strong>Gross profit</strong> is what's left after subtracting your product cost and shipping from the sale price — it ignores everything else. <strong>Net profit</strong> goes further and deducts platform fees, payment processing fees, and ad spend as well. Gross profit tells you if the product itself is viable; net profit tells you if the <em>business</em> is viable. Many stores look profitable at the gross level and lose money at the net level — which is exactly why the <a href="profit-calculator.html">Profit Margin Calculator</a> shows you both.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-group-label">Benchmarks</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      What is a good profit margin for ecommerce?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        It depends on the model, but a useful rule of thumb: aim for a <strong>gross margin above 50%</strong> and a <strong>net margin of at least 15–25%</strong> after all fees and ad spend. Low-ticket, high-volume products (under $30) often need margins well above 60% gross to stay healthy once ads are factored in. Higher-ticket items can sometimes work at lower gross margins because the absolute dollar profit per unit is still substantial. The <a href="product-viability.html">Product Viability Calculator</a> applies these thresholds automatically and gives you a clear verdict.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      What is a healthy LTV:CAC ratio?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        The widely-cited benchmark is <strong>3:1 or higher</strong> — meaning you earn three dollars in lifetime value for every dollar you spend acquiring a customer. A ratio below 1:1 means you're losing money on every customer. Between 1:1 and 2:1 is a danger zone where you may be covering acquisition costs but not leaving enough for overhead and growth. Above 4:1 can actually indicate you're under-investing in acquisition and leaving growth on the table. Use the <a href="ltv-calculator.html">LTV Calculator</a> to find your ratio and see where you stand.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-group-label">Compatibility</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      Can I use these calculators for Amazon or Etsy, or just Shopify?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        Most calculators work for any platform — you just enter your own fees manually. The <strong>Profit Margin, Pricing, CAC, LTV, Ad Metrics, Refund Impact, and Product Viability calculators</strong> all have a general "platform fee" or "other fees" field where you can plug in whatever Amazon, Etsy, WooCommerce, or TikTok Shop charges you. The one exception is the <a href="shopify-fees.html">Shopify Fees Calculator</a>, which is Shopify-specific and uses their published plan and transaction fee structure.
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggle(this)">
+      How often are new calculators added?
+      <span class="faq-chevron"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        We add new calculators whenever there's a clear gap — a common ecommerce decision that doesn't yet have a good, no-signup tool. There's no fixed schedule, but if you sign up for the newsletter on the <a href="index.html">homepage</a> you'll get an email the moment a new one goes live. If there's a specific calculation you'd like to see, you can reach out and suggest it.
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  EcomCalc — Free tools for ecommerce operators &nbsp;·&nbsp; <a href="faq.html">FAQ</a>
+</footer>
+
+<script>
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+  }
+
+  (function () {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+
+  function toggle(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    // Open clicked if it was closed
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
