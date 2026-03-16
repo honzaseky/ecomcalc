@@ -242,7 +242,7 @@
   .prefix { left: 14px; }
   .suffix { right: 14px; }
 
-  input[type="number"] {
+  input[type="number"], input[type="text"] {
     width: 100%;
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -279,7 +279,7 @@
   /* ── Sticky results panel ── */
   .results-col {
     position: sticky;
-    top: 24px;
+    top: 80px;
   }
 
   .results-card {
@@ -584,21 +584,21 @@
           <label>Total ad spend</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="adSpend" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="adSpend" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
         <div class="field">
           <label>Impressions</label>
           <div class="input-wrap">
-            <input type="number" id="impressions" placeholder="0" min="0" step="1">
+            <input type="text" inputmode="decimal" id="impressions" placeholder="0" min="0" step="1">
           </div>
         </div>
 
         <div class="field">
           <label>Clicks</label>
           <div class="input-wrap">
-            <input type="number" id="clicks" placeholder="0" min="0" step="1">
+            <input type="text" inputmode="decimal" id="clicks" placeholder="0" min="0" step="1">
           </div>
         </div>
       </div>
@@ -612,7 +612,7 @@
             <span class="optional-badge">Optional</span>
           </label>
           <div class="input-wrap">
-            <input type="number" id="conversions" placeholder="0" min="0" step="1">
+            <input type="text" inputmode="decimal" id="conversions" placeholder="0" min="0" step="1">
           </div>
         </div>
 
@@ -625,7 +625,7 @@
           </label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="revenue" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="revenue" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
       </div>
@@ -763,7 +763,7 @@
   const inputIds = ['adSpend', 'impressions', 'clicks', 'conversions', 'revenue'];
   inputIds.forEach(id => document.getElementById(id).addEventListener('input', calculate));
 
-  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function v(id) { return parseFloat(document.getElementById(id).value.replace(',', '.')) || 0; }
   function raw(id) { return document.getElementById(id).value.trim(); }
 
   function fmtCurrency(n) {

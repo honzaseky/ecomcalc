@@ -242,7 +242,7 @@
   .prefix { left: 14px; }
   .suffix { right: 14px; }
 
-  input[type="number"] {
+  input[type="number"], input[type="text"] {
     width: 100%;
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -287,7 +287,7 @@
   /* ── Sticky results panel ── */
   .results-col {
     position: sticky;
-    top: 24px;
+    top: 80px;
   }
 
   .results-card {
@@ -703,7 +703,7 @@
           <label>Product cost (COGS)</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="productCost" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="productCost" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
@@ -711,7 +711,7 @@
           <label>Shipping cost</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="shippingCost" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="shippingCost" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
@@ -722,7 +722,7 @@
           <div class="field">
             <label>Processing fee</label>
             <div class="input-wrap has-suffix">
-              <input type="number" id="processingPct" min="0" max="100" step="0.1" value="2.9">
+              <input type="text" inputmode="decimal" id="processingPct" min="0" max="100" step="0.1" value="2.9">
               <span class="suffix">%</span>
             </div>
           </div>
@@ -730,7 +730,7 @@
             <label>Fixed fee</label>
             <div class="input-wrap has-prefix">
               <span class="prefix currency-symbol">$</span>
-              <input type="number" id="processingFixed" min="0" step="0.01" value="0.30">
+              <input type="text" inputmode="decimal" id="processingFixed" min="0" step="0.01" value="0.30">
             </div>
           </div>
         </div>
@@ -739,7 +739,7 @@
           <div class="field">
             <label>Platform fee</label>
             <div class="input-wrap has-suffix">
-              <input type="number" id="platformPct" min="0" max="100" step="0.1" value="2">
+              <input type="text" inputmode="decimal" id="platformPct" min="0" max="100" step="0.1" value="2">
               <span class="suffix">%</span>
             </div>
           </div>
@@ -753,7 +753,7 @@
           <label>Selling price</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
@@ -766,7 +766,7 @@
           </label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="adSpend" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="adSpend" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
       </div>
@@ -947,7 +947,7 @@
   const inputIds = ['productCost','shippingCost','processingPct','processingFixed','platformPct','sellingPrice','adSpend'];
   inputIds.forEach(id => document.getElementById(id).addEventListener('input', calculate));
 
-  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function v(id) { return parseFloat(document.getElementById(id).value.replace(',', '.')) || 0; }
 
   function fmt(n) {
     const abs = Math.abs(n);

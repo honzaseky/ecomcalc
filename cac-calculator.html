@@ -242,7 +242,7 @@
   .prefix { left: 14px; }
   .suffix { right: 14px; }
 
-  input[type="number"] {
+  input[type="number"], input[type="text"] {
     width: 100%;
     background: var(--surface2);
     border: 1px solid var(--border);
@@ -287,7 +287,7 @@
   /* ── Sticky results panel ── */
   .results-col {
     position: sticky;
-    top: 24px;
+    top: 80px;
   }
 
   .results-card {
@@ -593,14 +593,14 @@
           <label>Total ad spend</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="adSpend" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="adSpend" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
         <div class="field">
           <label>Customers acquired</label>
           <div class="input-wrap">
-            <input type="number" id="customers" placeholder="0" min="1" step="1">
+            <input type="text" inputmode="decimal" id="customers" placeholder="0" min="1" step="1">
           </div>
         </div>
 
@@ -612,14 +612,14 @@
             <label>Tools / software</label>
             <div class="input-wrap has-prefix">
               <span class="prefix currency-symbol">$</span>
-              <input type="number" id="toolsCost" placeholder="0.00" min="0" step="0.01">
+              <input type="text" inputmode="decimal" id="toolsCost" placeholder="0.00" min="0" step="0.01">
             </div>
           </div>
           <div class="field">
             <label>Agency / freelancer</label>
             <div class="input-wrap has-prefix">
               <span class="prefix currency-symbol">$</span>
-              <input type="number" id="agencyCost" placeholder="0.00" min="0" step="0.01">
+              <input type="text" inputmode="decimal" id="agencyCost" placeholder="0.00" min="0" step="0.01">
             </div>
           </div>
         </div>
@@ -632,7 +632,7 @@
           <label>Selling price</label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
 
@@ -643,7 +643,7 @@
           </label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
-            <input type="number" id="productCost" placeholder="0.00" min="0" step="0.01">
+            <input type="text" inputmode="decimal" id="productCost" placeholder="0.00" min="0" step="0.01">
           </div>
         </div>
       </div>
@@ -771,7 +771,7 @@
   const inputIds = ['adSpend', 'customers', 'toolsCost', 'agencyCost', 'sellingPrice', 'productCost'];
   inputIds.forEach(id => document.getElementById(id).addEventListener('input', calculate));
 
-  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+  function v(id) { return parseFloat(document.getElementById(id).value.replace(',', '.')) || 0; }
 
   function fmt(n) {
     const abs = Math.abs(n);
