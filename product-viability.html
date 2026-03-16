@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Viability Calculator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── Light mode (default) ── */
+  :root {
+    --bg: #f4f4f8;
+    --surface: #ffffff;
+    --surface2: #f0f0f5;
+    --border: #e2e2ec;
+    --border-active: #a0a0c0;
+    --text: #18182a;
+    --text-muted: #6b6b8a;
+    --text-dim: #b8b8cc;
+    --accent: #6c5ce7;
+    --accent-glow: rgba(108, 92, 231, 0.12);
+    --green: #16a34a;
+    --green-dim: rgba(22, 163, 74, 0.08);
+    --green-border: rgba(22, 163, 74, 0.22);
+    --red: #dc2626;
+    --red-dim: rgba(220, 38, 38, 0.08);
+    --red-border: rgba(220, 38, 38, 0.22);
+    --yellow: #b45309;
+    --yellow-dim: rgba(180, 83, 9, 0.08);
+    --yellow-border: rgba(180, 83, 9, 0.22);
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05);
+  }
+
+  /* ── Dark mode ── */
+  [data-theme="dark"] {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #1a1a24;
+    --border: #1f1f2e;
+    --border-active: #3a3a5c;
+    --text: #e8e8f0;
+    --text-muted: #6b6b8a;
+    --text-dim: #3a3a55;
+    --accent: #7c6af7;
+    --accent-glow: rgba(124, 106, 247, 0.15);
+    --green: #22c55e;
+    --green-dim: rgba(34, 197, 94, 0.08);
+    --green-border: rgba(34, 197, 94, 0.25);
+    --red: #ef4444;
+    --red-dim: rgba(239, 68, 68, 0.08);
+    --red-border: rgba(239, 68, 68, 0.25);
+    --yellow: #f59e0b;
+    --yellow-dim: rgba(245, 158, 11, 0.08);
+    --yellow-border: rgba(245, 158, 11, 0.25);
+    --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  html { transition: background 0.25s, color 0.25s; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 84px 24px 80px;
+    line-height: 1.5;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* ── Theme toggle ── */
+  .theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    box-shadow: var(--shadow);
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .theme-toggle button {
+    background: none;
+    border: none;
+    border-radius: 100px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 15px;
+    color: var(--text-muted);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .theme-toggle button.active {
+    background: var(--surface2);
+    color: var(--text);
+  }
+
+  [data-theme="light"] #btn-light { background: var(--surface2); color: var(--text); }
+  [data-theme="dark"]  #btn-dark  { background: var(--surface2); color: var(--text); }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .header-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  /* ── Currency selector ── */
+  .currency-bar {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .currency-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.04em;
+  }
+
+  .currency-btn:hover { border-color: var(--border-active); color: var(--text); }
+
+  .currency-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  /* ── Two-column layout ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  .inputs-col { display: flex; flex-direction: column; gap: 16px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    box-shadow: var(--shadow);
+    transition: background 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 22px;
+  }
+
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .optional-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .prefix, .suffix {
+    position: absolute;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
+    pointer-events: none;
+    z-index: 1;
+    transition: color 0.2s;
+  }
+
+  .prefix { left: 14px; }
+  .suffix { right: 14px; }
+
+  input[type="number"] {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 13px 14px;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.25s, color 0.25s;
+    -moz-appearance: textfield;
+    outline: none;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+  .has-prefix input { padding-left: 34px; }
+  .has-suffix input { padding-right: 42px; }
+
+  input:focus {
+    border-color: var(--border-active);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+  }
+
+  input::placeholder { color: var(--text-dim); }
+
+  .fee-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .fee-row .field { margin-bottom: 0; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 22px 0;
+    transition: background 0.25s;
+  }
+
+  /* ── Sticky results panel ── */
+  .results-col {
+    position: sticky;
+    top: 24px;
+  }
+
+  .results-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: border-color 0.35s, background 0.25s, box-shadow 0.25s;
+  }
+
+  .results-card.viable     { border-color: var(--green-border); }
+  .results-card.maybe      { border-color: var(--yellow-border); }
+  .results-card.not-viable { border-color: var(--red-border); }
+
+  /* ── Verdict banner ── */
+  .verdict {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 32px 24px;
+    text-align: center;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.35s, border-color 0.35s;
+    min-height: 120px;
+  }
+
+  .verdict.viable     { background: var(--green-dim);  border-color: var(--green-border); }
+  .verdict.maybe      { background: var(--yellow-dim); border-color: var(--yellow-border); }
+  .verdict.not-viable { background: var(--red-dim);    border-color: var(--red-border); }
+
+  .verdict-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: background 0.35s;
+  }
+
+  .viable     .verdict-icon { background: var(--green);  color: #fff; }
+  .maybe      .verdict-icon { background: var(--yellow); color: #fff; }
+  .not-viable .verdict-icon { background: var(--red);    color: #fff; }
+
+  .verdict-text {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    transition: color 0.35s;
+    color: var(--text-muted);
+  }
+
+  .viable     .verdict-text { color: var(--green); }
+  .maybe      .verdict-text { color: var(--yellow); }
+  .not-viable .verdict-text { color: var(--red); }
+
+  .verdict-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: none;
+  }
+
+  .viable     .verdict-sub,
+  .maybe      .verdict-sub,
+  .not-viable .verdict-sub { display: block; }
+
+  /* ── Metrics ── */
+  .metrics-wrap { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .metric {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .metric-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .metric-value {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    transition: color 0.3s;
+  }
+
+  .metric-value.positive { color: var(--green); }
+  .metric-value.negative { color: var(--red); }
+  .metric-value.neutral  { color: var(--yellow); }
+
+  .metric-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  /* ── ROAS / Markup row ── */
+  .roas-metric {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .roas-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .roas-sub { font-size: 12px; color: var(--text-muted); }
+
+  .roas-value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Breakdown ── */
+  .breakdown {
+    border-top: 1px solid var(--border);
+    padding: 16px 20px 20px;
+    transition: border-color 0.25s;
+  }
+
+  .breakdown-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+  }
+
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 0.25s;
+  }
+
+  .breakdown-row:last-child { border-bottom: none; }
+
+  .breakdown-label { color: var(--text-muted); }
+  .breakdown-value { font-weight: 600; color: var(--text); }
+  .breakdown-value.cost    { color: var(--red); }
+  .breakdown-value.revenue { color: var(--green); }
+
+  /* ── Empty state ── */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 56px 24px;
+    gap: 10px;
+  }
+
+  .empty-icon  { font-size: 32px; opacity: 0.3; }
+
+  .empty-label {
+    font-size: 15px;
+    color: var(--text-dim);
+    text-align: center;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 720px) {
+    .layout { grid-template-columns: 1fr; }
+    .results-col { position: static; }
+    .metrics { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 32px 16px 60px; }
+    .metrics { grid-template-columns: 1fr; }
+    .fee-row { grid-template-columns: 1fr; }
+    .card { padding: 22px 20px; }
+    .theme-toggle { top: 12px; right: 12px; }
+  }
+
+  /* ── Site header ── */
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    transition: background 0.25s, border-color 0.25s;
+  }
+
+  .site-header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+  }
+
+  .site-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-name" href="index.html">EcomCalc</a>
+  </div>
+</header>
+
+<!-- Theme toggle -->
+<div class="theme-toggle">
+  <button id="btn-light" onclick="setTheme('light')" title="Light mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button>
+  <button id="btn-dark"  onclick="setTheme('dark')"  title="Dark mode"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+</div>
+
+<div class="page">
+
+  <div class="header">
+    <div class="header-label">Ecommerce</div>
+    <h1>Product Viability Calculator</h1>
+    <p class="subtitle">Is this product worth selling?</p>
+
+    <div class="currency-bar">
+      <button class="currency-btn active" data-symbol="$" onclick="setCurrency(this)">$ USD</button>
+      <button class="currency-btn" data-symbol="€" onclick="setCurrency(this)">€ EUR</button>
+      <button class="currency-btn" data-symbol="£" onclick="setCurrency(this)">£ GBP</button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- Inputs -->
+    <div class="inputs-col">
+
+      <div class="card">
+        <div class="card-title">Cost Structure</div>
+
+        <div class="field">
+          <label>Product cost (sourcing)</label>
+          <div class="input-wrap has-prefix">
+            <span class="prefix currency-symbol">$</span>
+            <input type="number" id="productCost" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Shipping cost</label>
+          <div class="input-wrap has-prefix">
+            <span class="prefix currency-symbol">$</span>
+            <input type="number" id="shippingCost" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>
+            Ad spend per unit
+            <span class="optional-badge">Optional</span>
+          </label>
+          <div class="input-wrap has-prefix">
+            <span class="prefix currency-symbol">$</span>
+            <input type="number" id="adSpend" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="card-title">Fees &amp; Returns</div>
+
+        <div class="fee-row">
+          <div class="field">
+            <label>Processing fee</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="processingPct" min="0" max="100" step="0.1" value="2.9">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Fixed fee</label>
+            <div class="input-wrap has-prefix">
+              <span class="prefix currency-symbol">$</span>
+              <input type="number" id="processingFixed" min="0" step="0.01" value="0.30">
+            </div>
+          </div>
+        </div>
+
+        <div class="fee-row" style="margin-top:12px;">
+          <div class="field">
+            <label>Platform fee</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="platformPct" min="0" max="100" step="0.1" value="2">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+          <div class="field">
+            <label>Refund rate</label>
+            <div class="input-wrap has-suffix">
+              <input type="number" id="refundRate" min="0" max="100" step="0.1" value="5">
+              <span class="suffix">%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Revenue &amp; Volume</div>
+
+        <div class="field">
+          <label>Selling price</label>
+          <div class="input-wrap has-prefix">
+            <span class="prefix currency-symbol">$</span>
+            <input type="number" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Estimated monthly orders</label>
+          <div class="input-wrap">
+            <input type="number" id="monthlyOrders" placeholder="0" min="0" step="1">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Results -->
+    <div class="results-col">
+      <div class="results-card" id="resultsCard">
+
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">◎</div>
+          <div class="empty-label">Enter your numbers<br>to see results</div>
+        </div>
+
+        <div id="resultsContent" style="display:none;">
+
+          <div class="verdict" id="verdict">
+            <div class="verdict-icon" id="verdictIcon"></div>
+            <div class="verdict-text" id="verdictText"></div>
+            <div class="verdict-sub"  id="verdictSub"></div>
+          </div>
+
+          <div class="metrics-wrap">
+            <div class="metrics">
+              <div class="metric">
+                <div class="metric-label">Net Profit / Unit</div>
+                <div class="metric-value" id="netProfitUnit">—</div>
+                <div class="metric-sub">After all costs</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Monthly Net Profit</div>
+                <div class="metric-value" id="monthlyProfit">—</div>
+                <div class="metric-sub" id="monthlyProfitSub">Based on orders</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Profit Margin</div>
+                <div class="metric-value" id="profitMargin">—</div>
+                <div class="metric-sub">Of selling price</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Markup Ratio</div>
+                <div class="metric-value" id="markupRatio">—</div>
+                <div class="metric-sub">Price ÷ cost</div>
+              </div>
+            </div>
+
+            <div class="roas-metric">
+              <div>
+                <div class="roas-label">Break-even ROAS</div>
+                <div class="roas-sub">Min return to cover all costs</div>
+              </div>
+              <div class="roas-value" id="roasValue">—</div>
+            </div>
+          </div>
+
+          <div class="breakdown">
+            <div class="breakdown-title">Per-Unit Breakdown</div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Selling price</span>
+              <span class="breakdown-value revenue" id="bRevenue">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Product cost</span>
+              <span class="breakdown-value cost" id="bProduct">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Shipping</span>
+              <span class="breakdown-value cost" id="bShipping">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Payment processing</span>
+              <span class="breakdown-value cost" id="bProcessing">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Platform fee</span>
+              <span class="breakdown-value cost" id="bPlatform">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label">Refund allowance</span>
+              <span class="breakdown-value cost" id="bRefund">—</span>
+            </div>
+            <div class="breakdown-row" id="bAdRow" style="display:none;">
+              <span class="breakdown-label">Ad spend</span>
+              <span class="breakdown-value cost" id="bAd">—</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /layout -->
+</div><!-- /page -->
+
+<script>
+  /* ── Theme ── */
+  function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+  }
+
+  (function () {
+    const saved = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', saved);
+  })();
+
+  /* ── Currency ── */
+  let currencySymbol = '$';
+
+  function setCurrency(btn) {
+    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currencySymbol = btn.dataset.symbol;
+    document.querySelectorAll('.currency-symbol').forEach(el => el.textContent = currencySymbol);
+    calculate();
+  }
+
+  /* ── Inputs ── */
+  const inputIds = ['productCost','shippingCost','adSpend','processingPct','processingFixed','platformPct','refundRate','sellingPrice','monthlyOrders'];
+  inputIds.forEach(id => document.getElementById(id).addEventListener('input', calculate));
+
+  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+  function fmt(n) {
+    const abs = Math.abs(n);
+    return (n < 0 ? '-' + currencySymbol : currencySymbol) + abs.toFixed(2);
+  }
+
+  function fmtPct(n) { return n.toFixed(1) + '%'; }
+
+  function setMetric(id, value, formatter) {
+    const el = document.getElementById(id);
+    el.textContent = formatter ? formatter(value) : fmt(value);
+    el.className = 'metric-value';
+    if (value > 0.005)       el.classList.add('positive');
+    else if (value < -0.005) el.classList.add('negative');
+    else                     el.classList.add('neutral');
+  }
+
+  /* ── Calculate ── */
+  function calculate() {
+    const price       = v('sellingPrice');
+    const product     = v('productCost');
+    const shipping    = v('shippingCost');
+    const adSpend     = v('adSpend');
+    const procPct     = v('processingPct');
+    const procFixed   = v('processingFixed');
+    const platPct     = v('platformPct');
+    const refundRate  = v('refundRate');
+    const orders      = v('monthlyOrders');
+    const hasAd       = document.getElementById('adSpend').value.trim() !== '';
+    const hasData     = price > 0 || product > 0;
+
+    document.getElementById('emptyState').style.display    = hasData ? 'none'  : 'flex';
+    document.getElementById('resultsContent').style.display = hasData ? 'block' : 'none';
+
+    if (!hasData) {
+      document.getElementById('resultsCard').className = 'results-card';
+      return;
+    }
+
+    const processingFee = (procPct / 100) * price + procFixed;
+    const platformFee   = (platPct / 100) * price;
+    const refundCost    = (refundRate / 100) * price;
+    const totalCosts    = product + shipping + processingFee + platformFee + refundCost + (hasAd ? adSpend : 0);
+    const netProfitUnit = price - totalCosts;
+    const monthlyNet    = netProfitUnit * orders;
+    const marginPct     = price > 0 ? (netProfitUnit / price) * 100 : 0;
+    const markup        = product > 0 ? price / product : 0;
+
+    // Break-even ROAS (cost base excludes ad spend)
+    const costsNoAd = product + shipping + processingFee + platformFee + refundCost;
+    const profitNoAd = price - costsNoAd;
+    const beRoas = profitNoAd > 0 ? price / profitNoAd : null;
+
+    // Metrics
+    setMetric('netProfitUnit', netProfitUnit);
+    setMetric('profitMargin',  marginPct,     fmtPct);
+
+    const monthlyEl = document.getElementById('monthlyProfit');
+    if (orders > 0) {
+      monthlyEl.textContent = fmt(monthlyNet);
+      monthlyEl.className = 'metric-value' + (monthlyNet > 0.005 ? ' positive' : monthlyNet < -0.005 ? ' negative' : ' neutral');
+      document.getElementById('monthlyProfitSub').textContent = orders.toLocaleString() + ' orders/mo';
+    } else {
+      monthlyEl.textContent = '—';
+      monthlyEl.className = 'metric-value';
+      document.getElementById('monthlyProfitSub').textContent = 'Enter monthly orders';
+    }
+
+    const markupEl = document.getElementById('markupRatio');
+    if (markup > 0) {
+      markupEl.textContent = markup.toFixed(2) + 'x';
+      markupEl.className = 'metric-value' + (markup >= 2.5 ? ' positive' : markup >= 1.5 ? ' neutral' : ' negative');
+    } else {
+      markupEl.textContent = '—';
+      markupEl.className = 'metric-value';
+    }
+
+    // ROAS
+    document.getElementById('roasValue').textContent =
+      beRoas !== null && isFinite(beRoas) ? beRoas.toFixed(2) + 'x' : '—';
+
+    // Verdict
+    const card    = document.getElementById('resultsCard');
+    const verdict = document.getElementById('verdict');
+    const icon    = document.getElementById('verdictIcon');
+    const text    = document.getElementById('verdictText');
+    const sub     = document.getElementById('verdictSub');
+
+    card.className    = 'results-card';
+    verdict.className = 'verdict';
+
+    if (netProfitUnit > 0.005 && marginPct >= 20 && markup >= 2.5) {
+      card.classList.add('viable');
+      verdict.classList.add('viable');
+      icon.textContent = '✓';
+      text.textContent = 'YES';
+      sub.textContent  = 'Strong margins with room for ad spend';
+    } else if (netProfitUnit > 0.005) {
+      card.classList.add('maybe');
+      verdict.classList.add('maybe');
+      icon.textContent = '~';
+      text.textContent = 'MAYBE';
+      sub.textContent  = marginPct < 20
+        ? 'Viable but margins are thin — optimize costs'
+        : 'Markup too low to absorb unexpected costs';
+    } else {
+      card.classList.add('not-viable');
+      verdict.classList.add('not-viable');
+      icon.textContent = '✕';
+      text.textContent = 'NO';
+      sub.textContent  = markup < 2
+        ? 'Markup too low to survive ad costs'
+        : 'Losing money at current prices';
+    }
+
+    // Breakdown
+    document.getElementById('bRevenue').textContent    = fmt(price);
+    document.getElementById('bProduct').textContent    = '−' + fmt(product);
+    document.getElementById('bShipping').textContent   = '−' + fmt(shipping);
+    document.getElementById('bProcessing').textContent = '−' + fmt(processingFee);
+    document.getElementById('bPlatform').textContent   = '−' + fmt(platformFee);
+    document.getElementById('bRefund').textContent     = '−' + fmt(refundCost);
+
+    const adRow = document.getElementById('bAdRow');
+    if (hasAd) {
+      adRow.style.display = 'flex';
+      document.getElementById('bAd').textContent = '−' + fmt(adSpend);
+    } else {
+      adRow.style.display = 'none';
+    }
+  }
+
+  calculate();
+</script>
+</body>
+</html>
