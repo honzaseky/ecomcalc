@@ -272,12 +272,21 @@
     transition: background 0.25s, border-color 0.25s;
   }
 
+  /* ── Bottom row (last 2 cards span full width as 50/50) ── */
+  .bottom-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
   /* ── Responsive ── */
   @media (max-width: 600px) {
     .site-header-inner { padding: 0 20px; }
     .grid-section { padding: 0 16px 60px; }
     .hero { padding: 48px 20px 40px; }
     .grid { grid-template-columns: 1fr; }
+    .bottom-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -362,25 +371,27 @@
       <span class="card-tag">Returns</span>
     </a>
 
-    <a class="calc-card" href="ad-metrics-calculator.html">
-      <div class="card-top">
-        <div class="card-icon">📊</div>
-        <span class="card-arrow">→</span>
-      </div>
-      <div class="card-title">Ad Metrics Calculator</div>
-      <div class="card-desc">Decode your ad performance — ROAS, CPC, CTR, and true cost per conversion.</div>
-      <span class="card-tag">Advertising</span>
-    </a>
+    <div class="bottom-row">
+      <a class="calc-card" href="ad-metrics-calculator.html">
+        <div class="card-top">
+          <div class="card-icon">📊</div>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="card-title">Ad Metrics Calculator</div>
+        <div class="card-desc">Decode your ad performance — ROAS, CPC, CTR, and true cost per conversion.</div>
+        <span class="card-tag">Advertising</span>
+      </a>
 
-    <a class="calc-card" href="product-viability.html">
-      <div class="card-top">
-        <div class="card-icon">✅</div>
-        <span class="card-arrow">→</span>
-      </div>
-      <div class="card-title">Product Viability Calculator</div>
-      <div class="card-desc">Get a clear YES / MAYBE / NO on whether a product is worth selling.</div>
-      <span class="card-tag">Strategy</span>
-    </a>
+      <a class="calc-card" href="product-viability.html">
+        <div class="card-top">
+          <div class="card-icon">✅</div>
+          <span class="card-arrow">→</span>
+        </div>
+        <div class="card-title">Product Viability Calculator</div>
+        <div class="card-desc">Get a clear YES / MAYBE / NO on whether a product is worth selling.</div>
+        <span class="card-tag">Strategy</span>
+      </a>
+    </div>
 
   </div>
 </main>

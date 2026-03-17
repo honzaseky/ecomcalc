@@ -597,6 +597,15 @@
     border-color: var(--green-border);
     color: var(--green);
   }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .btn-group .copy-btn {
+    flex: 1;
+    margin-top: 0;
+  }
 
   /* ── Back link ── */
   .back-link {
@@ -840,7 +849,11 @@
             </div>
           </div>
 
-          <button class="copy-btn" id="copyBtn" onclick="shareResults()">Save Image</button>
+          <div class="btn-group">
+            <button class="copy-btn" id="copyTextBtn" onclick="copyText()">Copy Results</button>
+            <button class="copy-btn" id="shareBtn" onclick="shareUrl()">Share</button>
+            <button class="copy-btn" id="copyBtn" onclick="shareResults()">Save Image</button>
+          </div>
 
         </div>
       </div>
@@ -1301,6 +1314,46 @@
     a.download = 'ecomcalc-results.png';
     a.href = canvas.toDataURL('image/png');
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+
+  function copyText() {
+    const btn = document.getElementById('copyTextBtn');
+    const sep = '────────────────────────';
+    const lines = [
+      'EcomCalc — LTV Calculator',
+      sep,
+      'LTV (Revenue): ' + document.getElementById('ltvRevenue').textContent,
+      'LTV (Profit): ' + document.getElementById('ltvProfit').textContent,
+    ];
+    const ratioWrap = document.getElementById('ratioWrap');
+    if (ratioWrap && ratioWrap.style.display !== 'none') {
+      lines.push('LTV:CAC Ratio: ' + document.getElementById('ratioValue').textContent);
+    }
+    const breakEvenWrap = document.getElementById('breakEvenWrap');
+    if (breakEvenWrap && breakEvenWrap.style.display !== 'none') {
+      lines.push('Break-even Orders: ' + document.getElementById('breakEvenValue').textContent);
+    }
+    lines.push(sep, 'ecomcalc.io');
+    navigator.clipboard.writeText(lines.join('\n'));
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Results'; btn.classList.remove('copied'); }, 2000);
+  }
+
+  function shareUrl() {
+    const btn = document.getElementById('shareBtn');
+    if (navigator.share) {
+      navigator.share({
+        title: 'EcomCalc — LTV Calculator',
+        text: 'I just calculated my customer lifetime value (LTV) using EcomCalc — free ecommerce calculators',
+        url: window.location.href
+      });
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Share'; btn.classList.remove('copied'); }, 2000);
+    }
   }
 
   function shareResults() {
