@@ -12,7 +12,9 @@
 <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CAC Calculator</title>
+<meta name="description" content="Calculate your customer acquisition cost and find out if your ad spend is actually profitable.">
+<link rel="canonical" href="https://ecomcalc.io/cac-calculator.html" />
+<title>Customer Acquisition Cost (CAC) Calculator — EcomCalc</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -143,6 +145,15 @@
     font-size: 16px;
     color: var(--text-muted);
     margin-bottom: 28px;
+  }
+
+  .page-intro {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 28px;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* ── Currency selector ── */
@@ -620,6 +631,8 @@
       <button class="currency-btn" data-symbol="£" onclick="setCurrency(this)">£ GBP</button>
     </div>
   </div>
+
+  <p class="page-intro">Enter your total ad spend and number of new customers acquired to calculate your customer acquisition cost. Compare against your average order value and margin to see if your campaigns are actually profitable.</p>
 
   <div class="layout">
 

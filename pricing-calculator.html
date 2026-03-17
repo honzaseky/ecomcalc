@@ -12,7 +12,9 @@
 <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product Pricing Calculator</title>
+<meta name="description" content="Work backwards from your target margin to find the right price for your ecommerce product.">
+<link rel="canonical" href="https://ecomcalc.io/pricing-calculator.html" />
+<title>Ecommerce Pricing Calculator — Find Your Ideal Selling Price</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -143,6 +145,15 @@
     font-size: 16px;
     color: var(--text-muted);
     margin-bottom: 28px;
+  }
+
+  .page-intro {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 28px;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* ── Currency selector ── */
@@ -683,6 +694,8 @@
       <button class="currency-btn" data-symbol="£" onclick="setCurrency(this)">£ GBP</button>
     </div>
   </div>
+
+  <p class="page-intro">Start with your target profit margin and work backwards to find the minimum viable selling price. Accounts for COGS, shipping, payment fees, and platform fees so your pricing is grounded in real numbers.</p>
 
   <div class="layout">
 

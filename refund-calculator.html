@@ -12,7 +12,9 @@
 <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Refund Impact Calculator</title>
+<meta name="description" content="Quantify how refunds eat into your monthly profit and find your break-even refund rate.">
+<link rel="canonical" href="https://ecomcalc.io/refund-calculator.html" />
+<title>Refund Impact Calculator — How Returns Affect Your Profit</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -143,6 +145,15 @@
     font-size: 16px;
     color: var(--text-muted);
     margin-bottom: 28px;
+  }
+
+  .page-intro {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 28px;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* ── Currency selector ── */
@@ -579,6 +590,8 @@
       <button class="currency-btn" data-symbol="£" onclick="setCurrency(this)">£ GBP</button>
     </div>
   </div>
+
+  <p class="page-intro">Enter your monthly revenue and refund rate to see exactly how much profit you're losing to returns. Calculates the true cost of refunds including absorbed shipping and processing fees.</p>
 
   <div class="layout">
 

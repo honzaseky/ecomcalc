@@ -12,7 +12,9 @@
 <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Profit Margin Calculator</title>
+<meta name="description" content="Calculate your exact profit margin per sale including COGS, shipping, payment fees, platform fees, and ad spend.">
+<link rel="canonical" href="https://ecomcalc.io/profit-calculator.html" />
+<title>Profit Margin Calculator for Ecommerce — EcomCalc</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -143,6 +145,15 @@
     font-size: 16px;
     color: var(--text-muted);
     margin-bottom: 28px;
+  }
+
+  .page-intro {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 640px;
+    margin: 0 auto 28px;
+    text-align: center;
+    line-height: 1.6;
   }
 
   /* ── Currency selector ── */
@@ -730,6 +741,8 @@
       <button class="currency-btn" data-symbol="£" onclick="setCurrency(this)">£ GBP</button>
     </div>
   </div>
+
+  <p class="page-intro">Enter your product cost, shipping, fees, and selling price to instantly see your gross and net profit margin. Supports payment processing fees, platform fees, and optional ad spend per unit. Use this before pricing a product or auditing an existing one.</p>
 
   <div class="layout">
 
