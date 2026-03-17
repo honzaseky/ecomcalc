@@ -5,7 +5,10 @@
       "Bash(grep:*)",
       "Bash(for f:*)",
       "Bash(python:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(do)",
+      "Bash(sed -i 's|<button class=\"\"currency-btn\"\" data-symbol=\"\"£\"\" onclick=\"\"setCurrency\\(this\\)\"\">£ GBP</button>|<button class=\"\"currency-btn\"\" data-symbol=\"\"£\"\" onclick=\"\"setCurrency\\(this\\)\"\">£ GBP</button>\\\\n      <button class=\"\"currency-btn\"\" data-symbol=\"\"Kč\"\" onclick=\"\"setCurrency\\(this\\)\"\">Kč CZK</button>|g' \"$f\")",
+      "Bash(done)"
     ]
   }
 }
