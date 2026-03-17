@@ -3,7 +3,9 @@
     "allow": [
       "Bash(find:*)",
       "Bash(grep:*)",
-      "Bash(for f:*)"
+      "Bash(for f:*)",
+      "Bash(python:*)",
+      "Bash(cd:*)"
     ]
   }
 }
