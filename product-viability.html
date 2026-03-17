@@ -608,6 +608,7 @@
     display: flex;
     gap: 8px;
     margin-top: 20px;
+    padding: 0 16px 16px 16px;
   }
   .btn-group .copy-btn {
     flex: 1;
@@ -891,7 +892,7 @@
 
         </div>
 
-        <div class="btn-group">
+        <div class="btn-group" style="display:none;">
           <button class="copy-btn" id="copyTextBtn" onclick="copyText()">Copy Results</button>
           <button class="copy-btn" id="shareBtn" onclick="shareUrl()">Share</button>
           <button class="copy-btn" id="copyBtn" onclick="shareResults()">Save Image</button>
@@ -1136,6 +1137,7 @@
 
     document.getElementById('emptyState').style.display    = hasData ? 'none'  : 'flex';
     document.getElementById('resultsContent').style.display = hasData ? 'block' : 'none';
+    document.querySelector('.btn-group').style.display = hasData ? 'flex' : 'none';
 
     if (!hasData) {
       document.getElementById('resultsCard').className = 'results-card';
