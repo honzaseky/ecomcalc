@@ -767,6 +767,7 @@
   }
   .btn-group {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
     margin-top: 20px;
     padding: 0 16px 16px 16px;
@@ -774,6 +775,20 @@
   .btn-group .copy-btn {
     flex: 1;
     margin-top: 0;
+  }
+  .coffee-support {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    color: #999;
+    margin-top: 12px;
+  }
+  .coffee-support a {
+    color: #6c63ff;
+    text-decoration: none;
+  }
+  .coffee-support a:hover {
+    text-decoration: underline;
   }
 
   /* ── Back link ── */
@@ -1045,8 +1060,7 @@
 
         <div class="btn-group" style="display:none;">
           <button class="copy-btn" id="copyTextBtn" onclick="copyText()">Copy Results</button>
-          <button class="copy-btn" id="shareBtn" onclick="shareUrl()">Share</button>
-          <button class="copy-btn" id="copyBtn" onclick="shareResults()">Save Image</button>
+          <p class="coffee-support">☕ If this helped, <a href="https://buymeacoffee.com/ecomcalc">support EcomCalc</a></p>
         </div>
 
       </div>
