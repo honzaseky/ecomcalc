@@ -8,7 +8,21 @@
       "Bash(cd:*)",
       "Bash(do)",
       "Bash(sed -i 's|<button class=\"\"currency-btn\"\" data-symbol=\"\"£\"\" onclick=\"\"setCurrency\\(this\\)\"\">£ GBP</button>|<button class=\"\"currency-btn\"\" data-symbol=\"\"£\"\" onclick=\"\"setCurrency\\(this\\)\"\">£ GBP</button>\\\\n      <button class=\"\"currency-btn\"\" data-symbol=\"\"Kč\"\" onclick=\"\"setCurrency\\(this\\)\"\">Kč CZK</button>|g' \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(node -e \"require\\(''sharp''\\)\")",
+      "Bash(node -e \"require\\(''canvas''\\)\")",
+      "Bash(python3 -c \"import cairosvg\")",
+      "Bash(python3 -c \"from PIL import Image\")",
+      "Bash(pip install:*)",
+      "Bash(python3 -m pip install cairosvg)",
+      "Bash(npm install:*)",
+      "Bash(node -e \":*)",
+      "Bash(node gen-favicon-png.js)",
+      "Bash(node -e \"const svg2img=require\\(''''svg2img''''\\); console.log\\(Object.keys\\(svg2img\\)\\)\")",
+      "Bash(node -e \"require\\(''''canvas''''\\)\")",
+      "Bash(node generate-cover.js)",
+      "Bash(node -e \"const fs=require\\(''fs''\\); const s=fs.statSync\\(''cover-image.png''\\); console.log\\(''Size:'', s.size, ''bytes''\\);\")",
+      "Bash(node -e \"const fs = require\\(''fs''\\); const s = fs.statSync\\(''cover-image.png''\\); console.log\\(''Size:'', s.size, ''bytes''\\);\")"
     ]
   }
 }
