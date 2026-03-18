@@ -667,22 +667,27 @@
     transition: border-color 0.25s;
   }
   .footer-top {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
-    padding: 32px 40px;
+    padding: 20px 40px;
   }
   .footer-logo {
     font-size: 14px;
     font-weight: 600;
+    line-height: 1;
     color: var(--accent);
   }
   .footer-tagline {
+    text-align: center;
+    line-height: 1;
     color: var(--text-muted);
   }
   .footer-right {
     display: flex;
+    line-height: 1;
     align-items: center;
+    justify-content: flex-end;
     gap: 6px;
   }
   .footer-right a {
@@ -696,6 +701,10 @@
   .footer-right span:not(.footer-sep) {
     color: var(--text-muted);
   }
+  .footer-badge {
+    text-align: center;
+    padding-bottom: 12px;
+  }
   .footer-bottom {
     border-top: 1px solid var(--border);
     text-align: center;
@@ -704,8 +713,8 @@
     color: var(--text-dim);
   }
   @media (max-width: 600px) {
-    .footer-top { flex-direction: column; gap: 10px; text-align: center; padding: 24px 16px; }
-    .footer-bottom { padding: 12px 16px; }
+    .footer-top { grid-template-columns: 1fr; gap: 10px; text-align: center; padding: 24px 16px; }
+  .footer-bottom { padding: 12px 16px; }
   }
 
   /* ── Copy Results ── */
@@ -736,7 +745,6 @@
   }
   .btn-group {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
     margin-top: 20px;
     padding: 0 16px 16px 16px;
@@ -1237,8 +1245,10 @@
       <a href="https://buymeacoffee.com/ecomcalc">☕ Support EcomCalc</a>
       <span class="footer-sep">&middot;</span>
       <span>Built with Claude</span>
-      <a href="https://fazier.com/launches/ecomcalc.io" target="_blank"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=neutral" width=250 alt="Fazier badge" /></a>
     </div>
+  </div>
+  <div class="footer-badge">
+    <a href="https://fazier.com/launches/ecomcalc.io" target="_blank"><img src="https://fazier.com/api/v1//public/badges/launch_badges.svg?badge_type=featured&theme=neutral" width=120 alt="Fazier badge" /></a>
   </div>
   <div class="footer-bottom">
     &copy; 2026 EcomCalc &mdash; Free ecommerce calculators. No signup required.

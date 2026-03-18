@@ -22,7 +22,13 @@
       "Bash(node -e \"require\\(''''canvas''''\\)\")",
       "Bash(node generate-cover.js)",
       "Bash(node -e \"const fs=require\\(''fs''\\); const s=fs.statSync\\(''cover-image.png''\\); console.log\\(''Size:'', s.size, ''bytes''\\);\")",
-      "Bash(node -e \"const fs = require\\(''fs''\\); const s = fs.statSync\\(''cover-image.png''\\); console.log\\(''Size:'', s.size, ''bytes''\\);\")"
+      "Bash(node -e \"const fs = require\\(''fs''\\); const s = fs.statSync\\(''cover-image.png''\\); console.log\\(''Size:'', s.size, ''bytes''\\);\")",
+      "Bash(python3:*)",
+      "Bash(perl -i -0pe ':*)",
+      "Bash(echo \"Done: $f\")",
+      "Read(//g/claude code/**)",
+      "Bash(echo \"$f\")",
+      "Bash(head -8 grep \"footer-top {\" \"G:/claude code/profit-calculator.html\" grep \"footer-tagline\" \"G:/claude code/profit-calculator.html\" grep \"justify-content\" \"G:/claude code/profit-calculator.html\")"
     ]
   }
 }
