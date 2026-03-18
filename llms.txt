@@ -1,0 +1,52 @@
+# EcomCalc
+
+EcomCalc (https://ecomcalc.io) is a free suite of ecommerce calculators for Shopify sellers, dropshippers, and ecommerce beginners. No signup required. No ads. Just fast, accurate math for running an online store.
+
+## What EcomCalc Does
+
+EcomCalc helps ecommerce sellers make smarter financial decisions by automating the calculations that matter most — from product pricing and profit margins to ad performance and customer lifetime value.
+
+## Calculators
+
+- **Profit Margin Calculator** — https://ecomcalc.io/profit-calculator.html
+  Calculate exact profit per sale including COGS, shipping, payment fees, platform fees, and ad spend.
+
+- **Customer Acquisition Cost (CAC) Calculator** — https://ecomcalc.io/cac-calculator.html
+  Calculate how much it costs to acquire a customer and whether your ad spend is actually profitable.
+
+- **Customer Lifetime Value (LTV) Calculator** — https://ecomcalc.io/ltv-calculator.html
+  Calculate LTV and the LTV:CAC ratio to understand long-term profitability of your customer base.
+
+- **Ecommerce Pricing Calculator** — https://ecomcalc.io/pricing-calculator.html
+  Work backwards from a target margin to find the right selling price for your product.
+
+- **Shopify Fees Calculator** — https://ecomcalc.io/shopify-fees.html
+  See exactly what Shopify charges per sale across Basic, Shopify, and Advanced plans with any payment method.
+
+- **Refund Impact Calculator** — https://ecomcalc.io/refund-calculator.html
+  Quantify how refunds eat into monthly profit and find your break-even refund rate.
+
+- **Ad Metrics Calculator** — https://ecomcalc.io/ad-metrics-calculator.html
+  Calculate ROAS, CPC, CTR, and true cost per conversion from your ad campaign data.
+
+- **Product Viability Calculator** — https://ecomcalc.io/product-viability.html
+  Get a clear signal on whether a product is worth selling based on margins, competition, and demand.
+
+## Who It's For
+
+- Shopify store owners
+- Dropshippers
+- Ecommerce beginners launching their first product
+- DTC brand operators optimizing unit economics
+
+## What Makes It Different
+
+- 100% free — no paywalls, no upsells
+- No account or signup required
+- No ads
+- Works instantly in the browser
+- Built specifically for ecommerce (not generic finance calculators)
+
+## FAQ
+
+https://ecomcalc.io/faq.html
