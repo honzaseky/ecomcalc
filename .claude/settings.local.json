@@ -34,7 +34,8 @@
       "Bash(npm i:*)",
       "Bash(git checkout:*)",
       "Bash(wc:*)",
-      "Bash(awk:*)"
+      "Bash(awk:*)",
+      "Bash(do grep:*)"
     ]
   }
 }
