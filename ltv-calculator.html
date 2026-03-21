@@ -755,6 +755,52 @@
       font-weight: 600;
     }
   }
+
+  /* Tooltips */
+  .field-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--border-active);
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: default;
+    vertical-align: middle;
+    margin-left: 4px;
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+    font-style: normal;
+  }
+  .field-tip-bubble {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 9px;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .field-tip:hover .field-tip-bubble,
+  .field-tip.active .field-tip-bubble {
+    opacity: 1;
+  }
 </style>
 </head>
 <body>
@@ -812,7 +858,7 @@
         <div class="card-title">Customer Behavior</div>
 
         <div class="field">
-          <label>Average order value</label>
+          <label><span>Average order value<span class="field-tip"><span class="field-tip-bubble">The typical amount a customer spends per purchase.</span>?</span></span></label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
             <input type="text" inputmode="decimal" id="aov" placeholder="0.00" min="0" step="0.01">
@@ -820,7 +866,7 @@
         </div>
 
         <div class="field">
-          <label>Purchase frequency (per year)</label>
+          <label><span>Purchase frequency (per year)<span class="field-tip"><span class="field-tip-bubble">How many times the average customer buys from you in a year.</span>?</span></span></label>
           <div class="input-wrap has-suffix">
             <input type="text" inputmode="decimal" id="frequency" placeholder="0" min="0" step="0.1">
             <span class="suffix">×</span>
@@ -828,7 +874,7 @@
         </div>
 
         <div class="field">
-          <label>Average customer lifespan</label>
+          <label><span>Average customer lifespan<span class="field-tip"><span class="field-tip-bubble">How many years the average customer keeps buying from you.</span>?</span></span></label>
           <div class="input-wrap has-suffix">
             <input type="text" inputmode="decimal" id="lifespan" placeholder="0" min="0" step="0.5">
             <span class="suffix">yr</span>
@@ -841,7 +887,7 @@
 
         <div class="field">
           <label>
-            Profit margin
+            <span>Profit margin<span class="field-tip"><span class="field-tip-bubble">Percentage of revenue left after all costs—used to calculate net LTV.</span>?</span></span>
             <span class="optional-badge">Optional</span>
           </label>
           <div class="input-wrap has-suffix">
@@ -854,7 +900,7 @@
 
         <div class="field">
           <label>
-            Customer acquisition cost (CAC)
+            <span>Customer acquisition cost (CAC)<span class="field-tip"><span class="field-tip-bubble">What you spend on average to acquire a single customer.</span>?</span></span>
             <span class="optional-badge">Optional</span>
           </label>
           <div class="input-wrap has-prefix">
@@ -1491,6 +1537,20 @@
   }
 
   calculate();
+</script>
+<script>
+  // Tooltip tap support for mobile
+  document.addEventListener('click', function(e) {
+    const tip = e.target.closest('.field-tip');
+    if (tip) {
+      e.stopPropagation();
+      const wasActive = tip.classList.contains('active');
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+      if (!wasActive) tip.classList.add('active');
+    } else {
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+    }
+  });
 </script>
 </body>
 </html>

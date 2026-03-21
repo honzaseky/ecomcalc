@@ -784,6 +784,52 @@
       font-weight: 600;
     }
   }
+
+  /* Tooltips */
+  .field-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--border-active);
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: default;
+    vertical-align: middle;
+    margin-left: 4px;
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+    font-style: normal;
+  }
+  .field-tip-bubble {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 9px;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .field-tip:hover .field-tip-bubble,
+  .field-tip.active .field-tip-bubble {
+    opacity: 1;
+  }
 </style>
 </head>
 <body>
@@ -841,7 +887,7 @@
         <div class="card-title">Store Details</div>
 
         <div class="field">
-          <label>Selling price per order</label>
+          <label><span>Selling price per order<span class="field-tip"><span class="field-tip-bubble">The price the customer pays per order.</span>?</span></span></label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
             <input type="text" inputmode="decimal" id="sellingPrice" placeholder="0.00" min="0" step="0.01">
@@ -849,7 +895,7 @@
         </div>
 
         <div class="field">
-          <label>Orders per month</label>
+          <label><span>Orders per month<span class="field-tip"><span class="field-tip-bubble">Your average number of orders in a month.</span>?</span></span></label>
           <div class="input-wrap">
             <input type="text" inputmode="decimal" id="ordersPerMonth" placeholder="0" min="0" step="1">
           </div>
@@ -860,7 +906,7 @@
         <div class="card-title">Shopify Plan</div>
 
         <div class="field">
-          <label>Select your plan</label>
+          <label><span>Select your plan<span class="field-tip"><span class="field-tip-bubble">Your Shopify subscription tier—determines the transaction fee rate.</span>?</span></span></label>
           <div class="segment" id="planSegment">
             <button class="segment-btn active" data-plan="basic" onclick="setPlan(this)">
               Basic
@@ -882,7 +928,7 @@
         <div class="card-title">Payment Method</div>
 
         <div class="field">
-          <label>How do you accept payments?</label>
+          <label><span>How do you accept payments?<span class="field-tip"><span class="field-tip-bubble">Shopify Payments has no extra transaction fee; third-party gateways add one.</span>?</span></span></label>
           <div class="segment" id="paymentSegment">
             <button class="segment-btn active" data-payment="shopify" onclick="setPayment(this)">
               Shopify Payments
@@ -1513,6 +1559,20 @@
   }
 
   calculate();
+</script>
+<script>
+  // Tooltip tap support for mobile
+  document.addEventListener('click', function(e) {
+    const tip = e.target.closest('.field-tip');
+    if (tip) {
+      e.stopPropagation();
+      const wasActive = tip.classList.contains('active');
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+      if (!wasActive) tip.classList.add('active');
+    } else {
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+    }
+  });
 </script>
 </body>
 </html>

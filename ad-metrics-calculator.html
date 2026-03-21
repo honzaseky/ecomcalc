@@ -753,6 +753,52 @@
       font-weight: 600;
     }
   }
+
+  /* Tooltips */
+  .field-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid var(--border-active);
+    color: var(--text-muted);
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: default;
+    vertical-align: middle;
+    margin-left: 4px;
+    position: relative;
+    user-select: none;
+    flex-shrink: 0;
+    font-style: normal;
+  }
+  .field-tip-bubble {
+    position: absolute;
+    bottom: calc(100% + 7px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 9px;
+    pointer-events: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.15s;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .field-tip:hover .field-tip-bubble,
+  .field-tip.active .field-tip-bubble {
+    opacity: 1;
+  }
 </style>
 </head>
 <body>
@@ -810,7 +856,7 @@
         <div class="card-title">Campaign Data</div>
 
         <div class="field">
-          <label>Total ad spend</label>
+          <label><span>Total ad spend<span class="field-tip"><span class="field-tip-bubble">Total amount spent on ads during the period.</span>?</span></span></label>
           <div class="input-wrap has-prefix">
             <span class="prefix currency-symbol">$</span>
             <input type="text" inputmode="decimal" id="adSpend" placeholder="0.00" min="0" step="0.01">
@@ -818,14 +864,14 @@
         </div>
 
         <div class="field">
-          <label>Impressions</label>
+          <label><span>Impressions<span class="field-tip"><span class="field-tip-bubble">Number of times your ad was displayed to users.</span>?</span></span></label>
           <div class="input-wrap">
             <input type="text" inputmode="decimal" id="impressions" placeholder="0" min="0" step="1">
           </div>
         </div>
 
         <div class="field">
-          <label>Clicks</label>
+          <label><span>Clicks<span class="field-tip"><span class="field-tip-bubble">Number of times someone clicked on your ad.</span>?</span></span></label>
           <div class="input-wrap">
             <input type="text" inputmode="decimal" id="clicks" placeholder="0" min="0" step="1">
           </div>
@@ -837,7 +883,7 @@
 
         <div class="field">
           <label>
-            Conversions
+            <span>Conversions<span class="field-tip"><span class="field-tip-bubble">Number of purchases or desired actions completed from the ad.</span>?</span></span>
             <span class="optional-badge">Optional</span>
           </label>
           <div class="input-wrap">
@@ -849,7 +895,7 @@
 
         <div class="field">
           <label>
-            Revenue from ads
+            <span>Revenue from ads<span class="field-tip"><span class="field-tip-bubble">Total revenue attributed to the ad campaign.</span>?</span></span>
             <span class="optional-badge">Optional</span>
           </label>
           <div class="input-wrap has-prefix">
@@ -1466,6 +1512,20 @@
   }
 
   calculate();
+</script>
+<script>
+  // Tooltip tap support for mobile
+  document.addEventListener('click', function(e) {
+    const tip = e.target.closest('.field-tip');
+    if (tip) {
+      e.stopPropagation();
+      const wasActive = tip.classList.contains('active');
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+      if (!wasActive) tip.classList.add('active');
+    } else {
+      document.querySelectorAll('.field-tip.active').forEach(t => t.classList.remove('active'));
+    }
+  });
 </script>
 </body>
 </html>
